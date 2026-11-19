@@ -245,6 +245,7 @@ function startUserSession(array $user): void
     $_SESSION['role']          = $user['role'];
     $_SESSION['full_name']     = $user['full_name'];
     $_SESSION['email']         = $user['email'];
+    $_SESSION['auth_source']   = $user['auth_source'] ?? 'local';
     $_SESSION['last_activity'] = time();
     $_SESSION['login_time']    = time();
     $_SESSION['pw_fp']         = passwordFingerprint($user['password_hash']);
@@ -280,7 +281,7 @@ function requireLogin(): void
         exit;
     }
 
-    $stmt = $db->prepare('SELECT username, password_hash, role, is_active, full_name, email FROM users WHERE id = ?');
+    $stmt = $db->prepare('SELECT username, password_hash, role, is_active, full_name, email, auth_source FROM users WHERE id = ?');
     $stmt->bindValue(1, (int)$_SESSION['user_id'], SQLITE3_INTEGER);
     $user = $stmt->execute()->fetchArray(SQLITE3_ASSOC);
 
@@ -309,6 +310,7 @@ function requireLogin(): void
     $_SESSION['role']      = $user['role'];
     $_SESSION['full_name'] = $user['full_name'];
     $_SESSION['email']     = $user['email'];
+    $_SESSION['auth_source'] = $user['auth_source'] ?? 'local';
 }
 
 /** Administrators only (users, system configuration, system logs). */
@@ -411,7 +413,7 @@ function logLoginAttempt($db, $username, $successful, $ip = null, $user_agent = 
 {
     $ip = $ip ?? getClientIp();
     $ua = cleanText($user_agent ?? ($_SERVER['HTTP_USER_AGENT'] ?? 'Unknown'), 255);
-    $username = cleanText($username, 64);
+    $username = cleanText($username, 254);
 
     $stmt = $db->prepare('INSERT INTO login_attempts (ip_address, username, successful, user_agent) VALUES (?, ?, ?, ?)');
     $stmt->bindValue(1, $ip, SQLITE3_TEXT);
