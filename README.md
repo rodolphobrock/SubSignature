@@ -31,6 +31,7 @@ locally, and nothing is sent to third parties.
 * [Screenshots](#screenshots)
 * [Requirements](#requirements) and [Installation](#installation)
 * [LDAP / Active Directory import](#ldap--active-directory-import)
+* [Fork-specific documentation](#fork-specific-documentation)
 * [All Signatures overview](#all-signatures-overview)
 * [API for the desktop agent](#api-for-the-desktop-agent)
 * [Languages](#languages) - [Roles](#roles) - [Security](#security)
@@ -122,6 +123,14 @@ locally, and nothing is sent to third parties.
   Nginx works with equivalent rules, see [Hardening](#hardening-checklist).
 * HTTPS (strongly recommended; required for the API).
 * For the desktop agent: Windows 10/11 or Linux, with Outlook (classic) and/or Thunderbird.
+
+## Fork-specific documentation
+
+This personal fork tracks its differences from upstream in
+[FORK_DIVERGENCES.md](FORK_DIVERGENCES.md). Tested runtime combinations and
+the scope of fork validation are listed in
+[docs/COMPATIBILITY.md](docs/COMPATIBILITY.md). The optional remote LDAP JIT
+test is documented in [tests/iximiuz/README.md](tests/iximiuz/README.md).
 
 ## Installation
 
